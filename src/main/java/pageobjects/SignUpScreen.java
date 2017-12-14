@@ -7,7 +7,7 @@ import io.appium.java_client.android.AndroidElement;
 
 public class SignUpScreen {
 	// Driver declaration
-	AndroidDriver driver;
+	AndroidDriver<AndroidElement> driver;
 	// Sign Up title
 	By signUptitle = By.xpath("//android.widget.TextView[@text='Sign Up']");
 	// Username
