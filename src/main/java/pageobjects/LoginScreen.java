@@ -59,4 +59,19 @@ public class LoginScreen {
 
 	}
 
+	public void quickLogin(SplashScreen splash, String enteredUserName, String enteredPassword) {
+
+		// click on Login link
+		splash.clickLogIn();
+
+		enterUsername(enteredUserName);
+		// enter password
+		enterPassword(enteredPassword);
+		// hide Keyboard
+		driver.hideKeyboard();
+		// click Login button
+		clickLogIn();
+
+	}
+
 }
