@@ -23,7 +23,7 @@ public class SignUpTest extends TestBase {
 	}
 
 	@Test
-	public void SingUpTest() {
+	public void SingUp_Test() {
 		SplashScreen splash = new SplashScreen(driver);
 		SignUpScreen signUp = new SignUpScreen(driver);
 		// click on Sing Up link

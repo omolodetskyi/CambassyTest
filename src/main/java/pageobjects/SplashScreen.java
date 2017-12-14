@@ -3,11 +3,12 @@ package pageobjects;
 import org.openqa.selenium.By;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 
 public class SplashScreen {
 
 	// Driver declaration
-	AndroidDriver driver;
+	AndroidDriver<AndroidElement> driver;
 
 	// UI elements on Spalsh Screen
 
@@ -19,7 +20,7 @@ public class SplashScreen {
 	By splashImage = By.id("com.cambassy:id/slide_image");
 
 	// constructor for SpalshScreen
-	public SplashScreen(AndroidDriver driver) {
+	public SplashScreen(AndroidDriver<AndroidElement> driver) {
 		this.driver = driver;
 	}
 

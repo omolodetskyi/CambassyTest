@@ -25,7 +25,7 @@ public class LogInTest extends TestBase {
 	}
 
 	@Test
-	public void LogInTest() {
+	public void LogIn_Test() {
 		SplashScreen splash = new SplashScreen(driver);
 		LoginScreen login = new LoginScreen(driver);
 		HomeScreen home = new HomeScreen(driver);

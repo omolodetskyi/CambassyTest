@@ -7,7 +7,7 @@ import io.appium.java_client.android.AndroidElement;
 
 public class LoginScreen {
 	// Driver declaration
-	AndroidDriver driver;
+	AndroidDriver<AndroidElement> driver;
 
 	// Sign Up title
 	By logIntitle = By.xpath("//android.widget.TextView[@text='Log In']");

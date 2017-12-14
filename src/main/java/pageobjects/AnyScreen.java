@@ -1,12 +1,13 @@
 package pageobjects;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 
 public class AnyScreen {
 	// Driver declaration
-	AndroidDriver driver;
+	AndroidDriver<AndroidElement> driver;
 
-	public AnyScreen(AndroidDriver driver) {
+	public AnyScreen(AndroidDriver<AndroidElement> driver) {
 		this.driver = driver;
 	}
 

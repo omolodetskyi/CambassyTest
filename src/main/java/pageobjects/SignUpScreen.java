@@ -3,6 +3,7 @@ package pageobjects;
 import org.openqa.selenium.By;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidElement;
 
 public class SignUpScreen {
 	// Driver declaration
@@ -30,7 +31,7 @@ public class SignUpScreen {
 	By loginLink = By.id("com.cambassy:id/signup_login_link");
 
 	// constructor for SignUpScreen
-	public SignUpScreen(AndroidDriver driver) {
+	public SignUpScreen(AndroidDriver<AndroidElement> driver) {
 		this.driver = driver;
 	}
 
