@@ -11,10 +11,12 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import pageobjects.AnyScreen;
 import pageobjects.BottomMenu;
+import pageobjects.CameraScreen;
 import pageobjects.FollowPeople;
 import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
 import pageobjects.MessagesScreen;
+import pageobjects.MyCambassadorScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
 
@@ -28,7 +30,7 @@ public class HomeScreenTest extends TestBase {
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		LoginScreen login = new LoginScreen(driver);
 		SplashScreen splash = new SplashScreen(driver);
-		login.quickLogin(splash, "main_user3", "123456");
+		login.quickLogin(splash, "main_user2", "123456");
 	}
 
 	@Test
@@ -38,6 +40,8 @@ public class HomeScreenTest extends TestBase {
 		FollowPeople followPeople = new FollowPeople(driver);
 		MessagesScreen messages = new MessagesScreen(driver);
 		AnyScreen any = new AnyScreen(driver);
+		MyCambassadorScreen myCambassador = new MyCambassadorScreen(driver);
+		CameraScreen camera = new CameraScreen(driver);
 
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check if home screen has correct title
@@ -52,18 +56,29 @@ public class HomeScreenTest extends TestBase {
 		any.goBack();
 		// click Chat button
 		home.clickChat();
-		// check Messages screen title //
+		// check Messages screen title
 		Assert.assertEquals(messages.getMessagesTitle(), "People you ❤");
 		// return back to Home screen
 		any.goBack();
 		// click MyCambassador button
+		bottomMenu.clickMyCambassador();
 		// check MyCambassador screen title
+		Assert.assertEquals(myCambassador.getMyCambassadorTitle(), "My Cambassador");
 		// return back to Home screen
+		bottomMenu.clickHome();
 		// click Camera button
+		bottomMenu.clickCamera();
 		// check Camera screen
+		while (camera.isPermissionMsg()) {
+			camera.clickAllow();
+		}
+		Assert.assertTrue(camera.isbtnCapture());
 		// return back to Home screen
-		// click Notificatioin button
-		// check Notificaiton screen title
+		camera.clickClose();
+		// click Notification button
+		bottomMenu.clickNotification();
+		// check Notification screen title
+
 		// return back to Home screen
 		// click My Profile button
 		// check Profile screen title
