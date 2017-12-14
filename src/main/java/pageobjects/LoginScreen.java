@@ -6,11 +6,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 
 public class LoginScreen {
-
-	public LoginScreen(AndroidDriver<AndroidElement> driver) {
-		this.driver = driver;
-	}
-
 	// Driver declaration
 	AndroidDriver driver;
 
@@ -39,6 +34,12 @@ public class LoginScreen {
 	// LoginBack
 
 	By loginBack = By.id("com.cambassy:id/login_back");
+
+	// constructor
+
+	public LoginScreen(AndroidDriver<AndroidElement> driver) {
+		this.driver = driver;
+	}
 
 	public String getTitle() {
 

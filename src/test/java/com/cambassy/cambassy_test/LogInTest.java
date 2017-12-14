@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import pageobjects.AnyScreen;
+import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
@@ -27,6 +28,7 @@ public class LogInTest extends TestBase {
 	public void LogInTest() {
 		SplashScreen splash = new SplashScreen(driver);
 		LoginScreen login = new LoginScreen(driver);
+		HomeScreen home = new HomeScreen(driver);
 		AnyScreen any = new AnyScreen(driver);
 		// click on Login link
 		splash.clickLogIn();
@@ -40,7 +42,10 @@ public class LogInTest extends TestBase {
 		any.hideKeyboard();
 		// click Login button
 		login.clickLogIn();
-
+		// wait for login completion
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		// check if user is logged in
+		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
 	}
 
 }
