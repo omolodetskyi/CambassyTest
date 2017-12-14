@@ -31,9 +31,9 @@ public class SignUpTest extends TestBase {
 		// check if Sign Up screen is opened
 		Assert.assertEquals(signUp.getTitle(), "Sign Up");
 		// enter user name
-		signUp.enterUsername("main_user4");
+		signUp.enterUsername("main_user3");
 		// enter email
-		signUp.enterEmail("test4@test.com");
+		signUp.enterEmail("test3@test.com");
 		// enter password
 		signUp.enterPassword("123456");
 		// select Nationality
