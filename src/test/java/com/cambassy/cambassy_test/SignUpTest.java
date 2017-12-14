@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -16,7 +16,7 @@ import pageobjects.TestBase;
 public class SignUpTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
 
-	@BeforeTest
+	@BeforeSuite
 	public void openApp() throws MalformedURLException {
 		driver = capabilities();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
