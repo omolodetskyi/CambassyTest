@@ -14,6 +14,7 @@ import pageobjects.BottomMenu;
 import pageobjects.FollowPeople;
 import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
+import pageobjects.MessagesScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
 
@@ -35,6 +36,7 @@ public class HomeScreenTest extends TestBase {
 		HomeScreen home = new HomeScreen(driver);
 		BottomMenu bottomMenu = new BottomMenu(driver);
 		FollowPeople followPeople = new FollowPeople(driver);
+		MessagesScreen messages = new MessagesScreen(driver);
 		AnyScreen any = new AnyScreen(driver);
 
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -50,8 +52,10 @@ public class HomeScreenTest extends TestBase {
 		any.goBack();
 		// click Chat button
 		home.clickChat();
-		// check Chat screen title //People you ❤
+		// check Messages screen title //
+		Assert.assertEquals(messages.getMessagesTitle(), "People you ❤");
 		// return back to Home screen
+		any.goBack();
 		// click MyCambassador button
 		// check MyCambassador screen title
 		// return back to Home screen
