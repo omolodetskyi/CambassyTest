@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import pageobjects.BottomMenu;
 import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
 import pageobjects.SplashScreen;
@@ -30,9 +31,11 @@ public class HomeScreenTest extends TestBase {
 	@Test
 	public void HomeScreen_Test() {
 		HomeScreen home = new HomeScreen(driver);
+		BottomMenu bottomMenu = new BottomMenu(driver);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check if home screen has correct title
 		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
+
 	}
 
 }
