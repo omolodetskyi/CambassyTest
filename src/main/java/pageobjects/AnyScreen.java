@@ -14,4 +14,8 @@ public class AnyScreen {
 	public void hideKeyboard() {
 		driver.hideKeyboard();
 	}
+
+	public void goBack() {
+		driver.navigate().back();
+	}
 }

@@ -9,7 +9,7 @@ public class HomeScreen {
 	// Driver declaration
 	AndroidDriver<AndroidElement> driver;
 	By posts72hrs = By.xpath("//android.widget.TextView[@text='Posts last 72 Hrs']");
-	By followPeople = By.id("com.cambassy:id/following_content_message_view");
+	By contentMsg = By.id("com.cambassy:id/following_content_message_view");
 	By btnFollowPeople = By.id("com.cambassy:id/toolbar_search_button");
 	By btnChat = By.id("com.cambassy:id/toolbar_chat_button");
 
@@ -33,5 +33,9 @@ public class HomeScreen {
 
 	public void swipeRight() {
 
+	}
+
+	public String checkContentMsg() {
+		return driver.findElement(contentMsg).getText();
 	}
 }
