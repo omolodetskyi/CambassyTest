@@ -17,6 +17,7 @@ import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
 import pageobjects.MessagesScreen;
 import pageobjects.MyCambassadorScreen;
+import pageobjects.NotificationScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
 
@@ -42,6 +43,7 @@ public class HomeScreenTest extends TestBase {
 		AnyScreen any = new AnyScreen(driver);
 		MyCambassadorScreen myCambassador = new MyCambassadorScreen(driver);
 		CameraScreen camera = new CameraScreen(driver);
+		NotificationScreen notification = new NotificationScreen(driver);
 
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check if home screen has correct title
@@ -78,8 +80,9 @@ public class HomeScreenTest extends TestBase {
 		// click Notification button
 		bottomMenu.clickNotification();
 		// check Notification screen title
-
+		Assert.assertTrue(notification.isNotificationScreen(), "Notification screen is not opened!");
 		// return back to Home screen
+		bottomMenu.clickHome();
 		// click My Profile button
 		// check Profile screen title
 		// return back to Home screen
