@@ -29,7 +29,7 @@ public class SignUpScreen {
 	// Login Link
 	By loginLink = By.id("com.cambassy:id/signup_login_link");
 
-	// constructor for SpalshScreen
+	// constructor for SignUpScreen
 	public SignUpScreen(AndroidDriver driver) {
 		this.driver = driver;
 	}
