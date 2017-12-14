@@ -20,7 +20,8 @@ public class SignUpScreen {
 	// Search nationality field
 	By searchNationality = By.id("com.cambassy:id/chooser_search_query_edit");
 	// Nationality dropdown values
-	By searchResultNationality = By.id("com.cambassy:id/text_view[1]");
+	By searchResultNationality = By.id("com.cambassy:id/text_view");
+
 	// I agree with the Terms of Use
 	By chkIagreeTerms = By.id("com.cambassy:id/signup_check_terms");
 	// SignUP button
@@ -54,8 +55,11 @@ public class SignUpScreen {
 		driver.findElement(nationality).click();
 		// enter Nationality in search field
 		driver.findElement(searchNationality).sendKeys(enteredNationality);
+		// driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		// select first value in the search result
+
 		driver.findElement(searchResultNationality).click();
+
 	}
 
 	// Check "I agree ..."
@@ -66,6 +70,10 @@ public class SignUpScreen {
 	// Click "Sign Up" button
 	public void clickSignUp() {
 		driver.findElement(btnSignUp).click();
+	}
+
+	public String getTitle() {
+		return driver.findElement(signUptitle).getText();
 	}
 
 	// Click "Log In" link
