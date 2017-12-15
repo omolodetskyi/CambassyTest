@@ -136,7 +136,7 @@ public class HomeScreenTest extends TestBase {
 		any.hideKeyboard();
 		followPeople.followUser();
 		// return back to Home screen
-		bottomMenu.clickHome();
+		any.goBack();
 		// check Posts feed
 		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
 				"None posts from " + anotheruser + "on home screen!");
