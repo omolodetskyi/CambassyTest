@@ -137,22 +137,23 @@ public class HomeScreenTest extends TestBase {
 		// follow user which added posts
 		home.clickFollowPeople();
 		followPeople.searchUser(anotheruser);
-		any.hideKeyboard();
-		followPeople.followUser();
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		followPeople.followUser(anotheruser);
 		// check message on the bottom of screeen
 		Assert.assertEquals(followPeople.getfollowMsg(), "You are now following " + anotheruser);
 		// return back to Home screen
 		any.goBack();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check Posts feed
 		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
 				"None posts from " + anotheruser + "on home screen!");
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Click follow People
 		home.clickFollowPeople();
 		// find another user
 		followPeople.searchUser(anotheruser);
-		any.hideKeyboard();
 		// Unfollow another user
-		followPeople.unfollowUser();
+		followPeople.unfollowUser(anotheruser);
 		// check message on the bottom of screeen
 		Assert.assertEquals(followPeople.getfollowMsg(), "You unfollowed " + anotheruser);
 		// go back to Home screen

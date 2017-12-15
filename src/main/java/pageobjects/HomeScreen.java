@@ -55,9 +55,10 @@ public class HomeScreen {
 
 	public boolean isUserPostHere(String username) {
 		List<AndroidElement> userPosts = driver.findElements(postFeedUserName);
+		System.out.println("Found number of posts " + userPosts.size());
 		boolean isUserPostHere = false;
-		int i = 0;
 		if (!userPosts.isEmpty()) {
+			System.out.println("Number of posts is not empty ");
 			for (AndroidElement userPost : userPosts) {
 				if (userPost.getText().equals(username)) {
 					isUserPostHere = true;
