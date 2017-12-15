@@ -121,7 +121,7 @@ public class HomeScreenTest extends TestBase {
 		bottomMenu.clickCamera();
 		camera.takePhoto();
 		camera.makePost();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// Go to Profile
 		profile.clickSettingsBtn();
 		// Click log out button
