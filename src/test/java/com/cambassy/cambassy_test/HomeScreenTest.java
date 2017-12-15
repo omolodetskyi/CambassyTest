@@ -24,6 +24,10 @@ import pageobjects.SettingsScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
 
+/* ***************************************************************************************************
+HomeScreenTest makes a smoke test for Home screen and Follow People feature
+*****************************************************************************************************/
+
 public class HomeScreenTest extends TestBase {
 
 	AndroidDriver<AndroidElement> driver;
@@ -135,12 +139,27 @@ public class HomeScreenTest extends TestBase {
 		followPeople.searchUser(anotheruser);
 		any.hideKeyboard();
 		followPeople.followUser();
+		// check message on the bottom of screeen
+		Assert.assertEquals(followPeople.getfollowMsg(), "You are now following " + anotheruser);
 		// return back to Home screen
 		any.goBack();
 		// check Posts feed
 		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
 				"None posts from " + anotheruser + "on home screen!");
-
+		// Click follow People
+		home.clickFollowPeople();
+		// find another user
+		followPeople.searchUser(anotheruser);
+		any.hideKeyboard();
+		// Unfollow another user
+		followPeople.unfollowUser();
+		// check message on the bottom of screeen
+		Assert.assertEquals(followPeople.getfollowMsg(), "You unfollowed " + anotheruser);
+		// go back to Home screen
+		any.goBack();
+		// check Posts feed
+		Assert.assertEquals(home.isUserPostHere(anotheruser), false,
+				"Posts from " + anotheruser + "still on home screen!");
 	}
 
 }

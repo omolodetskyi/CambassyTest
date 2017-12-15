@@ -11,6 +11,7 @@ public class FollowPeople {
 	By followPeopleTitle = By.xpath("(//android.widget.TextView)[1]");
 	By searchPeople = By.id("com.cambassy:id/search_query_edit");
 	By followUser = By.id("com.cambassy:id/user_follow_button");
+	By followMsg = By.id("com.cambassy:id/snackbar_text");
 
 	public FollowPeople(AndroidDriver<AndroidElement> driver) {
 		this.driver = driver;
@@ -26,5 +27,14 @@ public class FollowPeople {
 
 	public void followUser() {
 		driver.findElements(followUser).get(0).click();
+	}
+
+	public void unfollowUser() {
+		driver.findElements(followUser).get(0).click();
+
+	}
+
+	public String getfollowMsg() {
+		return driver.findElement(followMsg).getText();
 	}
 }
