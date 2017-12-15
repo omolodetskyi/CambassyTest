@@ -13,29 +13,36 @@ import pageobjects.AnyScreen;
 import pageobjects.BottomMenu;
 import pageobjects.CameraScreen;
 import pageobjects.FollowPeople;
+import pageobjects.GoCambassyScreen;
 import pageobjects.HomeScreen;
 import pageobjects.LoginScreen;
 import pageobjects.MessagesScreen;
 import pageobjects.MyCambassadorScreen;
 import pageobjects.NotificationScreen;
+import pageobjects.ProfileScreen;
+import pageobjects.SettingsScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
 
 public class HomeScreenTest extends TestBase {
 
 	AndroidDriver<AndroidElement> driver;
+	String username = "main_user2";
+	String password = "123456";
+	LoginScreen login;
+	SplashScreen splash;
 
 	@BeforeTest
 	public void openApp() throws MalformedURLException {
 		driver = capabilities();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		LoginScreen login = new LoginScreen(driver);
-		SplashScreen splash = new SplashScreen(driver);
-		login.quickLogin(splash, "main_user2", "123456");
+		login = new LoginScreen(driver);
+		splash = new SplashScreen(driver);
+		login.quickLogin(splash, username, password);
 	}
 
 	@Test
-	public void HomeScreen_Test() {
+	public void HomeScreen_Test() throws InterruptedException {
 		HomeScreen home = new HomeScreen(driver);
 		BottomMenu bottomMenu = new BottomMenu(driver);
 		FollowPeople followPeople = new FollowPeople(driver);
@@ -44,8 +51,13 @@ public class HomeScreenTest extends TestBase {
 		MyCambassadorScreen myCambassador = new MyCambassadorScreen(driver);
 		CameraScreen camera = new CameraScreen(driver);
 		NotificationScreen notification = new NotificationScreen(driver);
+		ProfileScreen profile = new ProfileScreen(driver);
+		GoCambassyScreen goCambassy = new GoCambassyScreen(driver);
+		SettingsScreen settings = new SettingsScreen(driver);
+		String anotheruser = "main_user3";
+		String passAnotherUser = "123456";
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check if home screen has correct title
 		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
 		// check follow people message
@@ -84,19 +96,50 @@ public class HomeScreenTest extends TestBase {
 		// return back to Home screen
 		bottomMenu.clickHome();
 		// click My Profile button
+		bottomMenu.clickProfile();
 		// check Profile screen title
+		Assert.assertEquals(profile.getProfileTitle(), username, "Profile screen is not opened or has wrong title!");
 		// return back to Home screen
+		bottomMenu.clickHome();
 		// swipe right
+		home.goToGoCambassy();
 		// check Go Cambassy screen
-		// return back to Home screen
-		// Logout
+		Assert.assertTrue(goCambassy.isGoCambassyScreen(), "Go Cambassy screen is not opened!");
+		// go back to Home screen
+		goCambassy.goToHomeScreen();
+		// Go to Profile
+		bottomMenu.clickProfile();
+		// Go to Settings
+		profile.clickSettingsBtn();
+		// Click log out button
+		settings.clickLogout();
+		// confirm log out
+		settings.ConfirmLogout();
 		// Login as another user
-		// make several posts
-		// Logout
+		login.quickLogin(splash, anotheruser, passAnotherUser);
+		// make post
+		bottomMenu.clickCamera();
+		camera.takePhoto();
+		camera.makePost();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		// Go to Profile
+		profile.clickSettingsBtn();
+		// Click log out button
+		settings.clickLogout();
+		// confirm log out
+		settings.ConfirmLogout();
 		// Login as initial user
+		login.quickLogin(splash, username, password);
 		// follow user which added posts
+		home.clickFollowPeople();
+		followPeople.searchUser(anotheruser);
+		any.hideKeyboard();
+		followPeople.followUser();
 		// return back to Home screen
+		bottomMenu.clickHome();
 		// check Posts feed
+		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
+				"None posts from " + anotheruser + "on home screen!");
 
 	}
 

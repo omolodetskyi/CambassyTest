@@ -11,6 +11,7 @@ public class CameraScreen {
 	By btnAllow = By.id("com.android.packageinstaller:id/permission_allow_button");
 	By btnCapture = By.id("com.cambassy:id/camera_capture_button");
 	By btnClose = By.id("com.cambassy:id/camera_close_button");
+	By btnPost = By.id("com.cambassy:id/preview_share_button");
 
 	// constructor
 	public CameraScreen(AndroidDriver<AndroidElement> driver) {
@@ -39,5 +40,16 @@ public class CameraScreen {
 	public void clickClose() {
 		driver.findElement(btnClose).click();
 
+	}
+
+	public void takePhoto() {
+		driver.findElement(btnCapture).click();
+		while (isPermissionMsg()) {
+			clickAllow();
+		}
+	}
+
+	public void makePost() {
+		driver.findElement(btnPost).click();
 	}
 }
