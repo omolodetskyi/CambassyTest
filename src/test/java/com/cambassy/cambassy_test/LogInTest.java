@@ -21,22 +21,28 @@ import pageobjects.TestBase;
 
 public class LogInTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
-	SplashScreen splash = new SplashScreen(driver);
-	LoginScreen login = new LoginScreen(driver);
-	HomeScreen home = new HomeScreen(driver);
-	AnyScreen any = new AnyScreen(driver);
-	BottomMenu bottomMenu = new BottomMenu(driver);
-	SettingsScreen settings = new SettingsScreen(driver);
-	ProfileScreen profile = new ProfileScreen(driver);
+	SplashScreen splash;
+	LoginScreen login;
+	HomeScreen home;
+	AnyScreen any;
+	BottomMenu bottomMenu;
+	SettingsScreen settings;
+	ProfileScreen profile;
 
 	@BeforeTest
 	public void openApp() throws MalformedURLException {
 		driver = capabilities();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
 	}
 
 	@Test
 	public void LogIn_Test() {
+
+		splash = new SplashScreen(driver);
+		login = new LoginScreen(driver);
+		home = new HomeScreen(driver);
+		any = new AnyScreen(driver);
 
 		// click on Login link
 		splash.clickLogIn();
@@ -57,7 +63,10 @@ public class LogInTest extends TestBase {
 	}
 
 	@AfterTest
-	public void tearDown() {
+	public void cleanUp() {
+		bottomMenu = new BottomMenu(driver);
+		settings = new SettingsScreen(driver);
+		profile = new ProfileScreen(driver);
 		// Go to Profile
 		bottomMenu.clickProfile();
 		// Go to Settings
