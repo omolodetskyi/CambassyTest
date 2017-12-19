@@ -55,13 +55,13 @@ public class MessagesTest extends TestBase {
 	@BeforeTest
 	public void beforeTest() throws MalformedURLException {
 
-		Reporter.log("Startig MessagesScreenTest");
-		Reporter.log("1. Open Cambassy");
+		Reporter.log("Startig MessagesScreenTest", true);
+		Reporter.log("1. Open Cambassy", true);
 		driver = capabilities();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		login = new LoginScreen(driver);
 		splash = new SplashScreen(driver);
-		Reporter.log("2. Login as " + username);
+		Reporter.log("2. Login as " + username, true);
 		login.quickLogin(splash, username, password);
 	}
 
@@ -78,114 +78,114 @@ public class MessagesTest extends TestBase {
 		any = new AnyScreen(driver);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// Tap Messages button
-		Reporter.log("3. Tap Messages button");
+		Reporter.log("3. Tap Messages button", true);
 		home.clickChat();
 		// check Messages screen title
-		Reporter.log("4. Check title of Messages screen");
+		Reporter.log("4. Check title of Messages screen", true);
 		Assert.assertEquals(messages.getMessagesTitle(), "People you ❤");
 		// Tap add chat button
-		Reporter.log("5. Tap Add chat button");
+		Reporter.log("5. Tap Add chat button", true);
 		messages.clickAddChat();
 		// check Search for User title
-		Reporter.log("6. Check Search for User title");
+		Reporter.log("6. Check Search for User title", true);
 		Assert.assertEquals(searchUser.getSearchForUserTitle(), "Search for User");
 		// Search for another user
-		Reporter.log("7. Search for user " + anotheruser);
+		Reporter.log("7. Search for user " + anotheruser, true);
 		searchUser.searchUser(anotheruser);
 		// Tap on user avatar
-		Reporter.log("8. Tap on " + anotheruser + " avatar");
+		Reporter.log("8. Tap on " + anotheruser + " avatar", true);
 		searchUser.selectUser(anotheruser);
 		driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		// enter message
-		Reporter.log("9. Enter message " + enteredMessage);
+		Reporter.log("9. Enter message " + enteredMessage, true);
 		chat.enterMessage(enteredMessage);
 		// send message
-		Reporter.log("10. Click Send button");
+		Reporter.log("10. Click Send button", true);
 		chat.clickSend();
 		// check that message appears in the chat screen
-		Reporter.log("11. Check if message appears in chat screen");
+		Reporter.log("11. Check if message appears in chat screen", true);
 		Assert.assertEquals(chat.getChatMsg(0), enteredMessage, "Message is not found!");
 		// check time of the message
-		Reporter.log("13. Check time of the message in chat screen");
+		Reporter.log("13. Check time of the message in chat screen", true);
 		String messageTime = getCurrentTime();
 		Assert.assertEquals(chat.getChatTime(0), messageTime);
 		// go back to Messages screen
-		Reporter.log("14. Go back to Messages screen");
+		Reporter.log("14. Go back to Messages screen", true);
 		any.clickBack();
 		// check last message on Messages screen
-		Reporter.log("15. Check last message on Messages screen");
+		Reporter.log("15. Check last message on Messages screen", true);
 		Assert.assertEquals(messages.getLastMessage(0), enteredMessage, "Message is not found!");
 		// check last message time on Messages screen
-		Reporter.log("16. Check last message time on Messages screen");
+		Reporter.log("16. Check last message time on Messages screen", true);
 		Assert.assertEquals(messages.getLastTime(0), messageTime);
 		// go back to Home screen
-		Reporter.log("17. Tap Back button");
+		Reporter.log("17. Tap Back button", true);
 		any.clickBack();
 		// Go to Profile
-		Reporter.log("18. Tap Profile button");
+		Reporter.log("18. Tap Profile button", true);
 		bottomMenu.clickProfile();
 		// Go to Settings
-		Reporter.log("19. Tap Settings button");
+		Reporter.log("19. Tap Settings button", true);
 		profile.clickSettingsBtn();
 		// Click log out button
-		Reporter.log("20. Tap Log out button");
+		Reporter.log("20. Tap Log out button", true);
 		settings.clickLogout();
 		// confirm log out
-		Reporter.log("21. Confirm logout");
+		Reporter.log("21. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as another user
-		Reporter.log("22. Login as " + anotheruser);
+		Reporter.log("22. Login as " + anotheruser, true);
 		login.quickLogin(splash, anotheruser, passAnotherUser);
 		// Check number of unread messages on Home screen
-		Reporter.log("23. Check number of unread messages on Home screen");
+		Reporter.log("23. Check number of unread messages on Home screen", true);
 		Assert.assertEquals(home.getNumberOfUnreadMsg(), "1");
 		// Tap on Chat button
-		Reporter.log("24. Tap on Chat button");
+		Reporter.log("24. Tap on Chat button", true);
 		home.clickChat();
 		// check number of unread messages on messages screen
-		Reporter.log("25. Check number of unread messages on Messages screen");
+		Reporter.log("25. Check number of unread messages on Messages screen", true);
 		Assert.assertEquals(messages.getNumberOfUnreadMsg(), "1");
 		// tap on number unread messages to see message from test user
-		Reporter.log("26. Tap on number unread messages to see message from " + username);
+		Reporter.log("26. Tap on number unread messages to see message from " + username, true);
 		messages.clickNumberOfUnreadMsg();
 		// check message from test user in Chat screen
-		Reporter.log("27. Check message from test user in Chat screen");
+		Reporter.log("27. Check message from test user in Chat screen", true);
 		Assert.assertEquals(chat.getChatMsg(0), enteredMessage, "Message is not found!");
 		// check time of the message
-		Reporter.log("28. Check time of the message in chat screen");
+		Reporter.log("28. Check time of the message in chat screen", true);
 		Assert.assertEquals(chat.getChatTime(0), messageTime);
 		// write answer to test user
 		Reporter.log("29. Enter answer to " + username);
 		chat.enterMessage(answerMsg);
 		// send message
-		Reporter.log("30. Click Send button");
+		Reporter.log("30. Click Send button", true);
 		chat.clickSend();
 		// check message to test user in Chat screen
 		String answerMessageTime = getCurrentTime();
-		Reporter.log("31. Check message to test user in Chat screen");
+		Reporter.log("31. Check message to test user in Chat screen", true);
 		Assert.assertEquals(chat.getChatMsg(1), answerMsg, "Message is not found!");
 		// check time of message to test user in Chat screen
 		Assert.assertEquals(chat.getChatTime(1), answerMessageTime);
 		// go back to Messages screen
-		Reporter.log("32. Tap Back button");
+		Reporter.log("32. Tap Back button", true);
 		any.clickBack();
 		// Tap on Delete Chat button
-		Reporter.log("33. Tap Delete Chat button");
+		Reporter.log("33. Tap Delete Chat button", true);
 		messages.clickDeleteChat();
 		// Tap on Remove Chat Button
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		Reporter.log("34. Tap Remove Chat button");
+		Reporter.log("34. Tap Remove Chat button", true);
 		messages.clickRemoveChat(0);
 		// Confirm removing chat
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		Reporter.log("35. Tap DELETE button");
+		Reporter.log("35. Tap DELETE button", true);
 		messages.clickConfirmDelete(0);
 		// Close deletion mode
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		Reporter.log("36. Tap Close deletion mode");
+		Reporter.log("36. Tap Close deletion mode", true);
 		messages.clickCloseDeleteMode();
 		// Check that chat was deleted
-		Reporter.log("37. Check that chat was deleted");
+		Reporter.log("37. Check that chat was deleted", true);
 		Assert.assertEquals(messages.getLastMessage(0), "None message found", "Message is not deleted!");
 
 	}
