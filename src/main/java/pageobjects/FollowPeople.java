@@ -16,7 +16,6 @@ public class FollowPeople {
 	By followUser = By.id("com.cambassy:id/user_follow_button");
 	By followMsg = By.id("com.cambassy:id/snackbar_text");
 	By followUserName = By.id("com.cambassy:id/user_login_view");
-	By btnBack = By.id("com.cambassy:id/toolbar_back_button");
 
 	public FollowPeople(AndroidDriver<AndroidElement> driver) {
 		this.driver = driver;
@@ -66,7 +65,4 @@ public class FollowPeople {
 		}
 	}
 
-	public void clickBack() {
-		driver.findElement(btnBack).click();
-	}
 }

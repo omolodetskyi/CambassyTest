@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -32,190 +33,202 @@ HomeScreenTest makes a smoke test for Home screen and Follow People feature
 public class HomeScreenTest extends TestBase {
 
 	AndroidDriver<AndroidElement> driver;
-	String username = "main_user2";
+	String username = "test_ms_user1";
 	String password = "123456";
+	String anotheruser = "test_ms_user2";
+	String passAnotherUser = "123456";
 	LoginScreen login;
 	SplashScreen splash;
+	MessagesScreen messages;
+	FollowPeople followPeople;
+	BottomMenu bottomMenu;
+	HomeScreen home;
+	AnyScreen any;
+	MyCambassadorScreen myCambassador;
+	CameraScreen camera;
+	NotificationScreen notification;
+	ProfileScreen profile;
+	GoCambassyScreen goCambassy;
+	SettingsScreen settings;
 
 	@BeforeTest
 	public void openApp() throws MalformedURLException {
-		System.out.println("Startig HomeScreenTest");
+		Reporter.log("Startig HomeScreenTest /n", true);
 		driver = capabilities();
-		System.out.println("1. Open Cambassy");
+		Reporter.log("1. Open Cambassy /n", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		login = new LoginScreen(driver);
 		splash = new SplashScreen(driver);
-		System.out.println("2. Login as " + username);
+		Reporter.log("2. Login as " + username, true);
 		login.quickLogin(splash, username, password);
 	}
 
 	@Test
 	public void HomeScreen_Test() throws InterruptedException {
-		HomeScreen home = new HomeScreen(driver);
-		BottomMenu bottomMenu = new BottomMenu(driver);
-		FollowPeople followPeople = new FollowPeople(driver);
-		MessagesScreen messages = new MessagesScreen(driver);
-		AnyScreen any = new AnyScreen(driver);
-		MyCambassadorScreen myCambassador = new MyCambassadorScreen(driver);
-		CameraScreen camera = new CameraScreen(driver);
-		NotificationScreen notification = new NotificationScreen(driver);
-		ProfileScreen profile = new ProfileScreen(driver);
-		GoCambassyScreen goCambassy = new GoCambassyScreen(driver);
-		SettingsScreen settings = new SettingsScreen(driver);
-		String anotheruser = "main_user3";
-		String passAnotherUser = "123456";
+		home = new HomeScreen(driver);
+		bottomMenu = new BottomMenu(driver);
+		followPeople = new FollowPeople(driver);
+		messages = new MessagesScreen(driver);
+		any = new AnyScreen(driver);
+		myCambassador = new MyCambassadorScreen(driver);
+		camera = new CameraScreen(driver);
+		notification = new NotificationScreen(driver);
+		profile = new ProfileScreen(driver);
+		goCambassy = new GoCambassyScreen(driver);
+		settings = new SettingsScreen(driver);
+
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		// check if home screen has correct title
-		System.out.println("3. Check title of Home screen");
+		Reporter.log("3. Check title of Home screen", true);
 		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
 		// check follow people message
-		System.out.println("4. Check content message on Home screen");
+		Reporter.log("4. Check content message on Home screen", true);
 		Assert.assertEquals(home.checkContentMsg(), "Start following people", "There is wrong content message!");
-		System.out.println("5. Tap Follow People button");
+		Reporter.log("5. Tap Follow People button", true);
 		// click Follow People button
 		home.clickFollowPeople();
 		// check Follow People title
-		System.out.println("6. Check title of Follow People screen");
+		Reporter.log("6. Check title of Follow People screen", true);
 		Assert.assertEquals(followPeople.getFollowPeopleTitle(), "Follow People");
 		// return back to Home screen
-		System.out.println("7. Press Back key");
+		Reporter.log("7. Press Back key", true);
 		any.goBack();
 		// click Chat button
-		System.out.println("8. Tap Messages button");
+		Reporter.log("8. Tap Messages button", true);
 		home.clickChat();
 		// check Messages screen title
-		System.out.println("9. Check title of Messages screen");
+		Reporter.log("9. Check title of Messages screen", true);
 		Assert.assertEquals(messages.getMessagesTitle(), "People you ❤");
 		// return back to Home screen
-		System.out.println("10. Press Back key");
+		Reporter.log("10. Press Back key", true);
 		any.goBack();
 		// click MyCambassador button
-		System.out.println("11. Tap My Cambassador button");
+		Reporter.log("11. Tap My Cambassador button", true);
 		bottomMenu.clickMyCambassador();
 		// check MyCambassador screen title
-		System.out.println("12. Check title of My Cambassador screen");
+		Reporter.log("12. Check title of My Cambassador screen", true);
 		Assert.assertEquals(myCambassador.getMyCambassadorTitle(), "My Cambassador");
 		// return back to Home screen
-		System.out.println("13. Tap Home button");
+		Reporter.log("13. Tap Home button", true);
 		bottomMenu.clickHome();
 		// click Camera button
-		System.out.println("14. Tap Camera button");
+		Reporter.log("14. Tap Camera button", true);
 		bottomMenu.clickCamera();
 		// check Camera screen
-		System.out.println("15. If there is some permissions dialog, press Allow");
+		Reporter.log("15. If there is some permissions dialog, press Allow", true);
 		while (camera.isPermissionMsg()) {
 			camera.clickAllow();
 		}
 		// check that there is Capture button, so it's Camera screen
-		System.out.println("16. Check there is Capture button, so it's Camera screen");
+		Reporter.log("16. Check there is Capture button, so it's Camera screen", true);
 		Assert.assertTrue(camera.isbtnCapture());
 		// return back to Home screen
-		System.out.println("17. Click X button on Camera screen");
+		Reporter.log("17. Click X button on Camera screen", true);
 		camera.clickClose();
 		// click Notification button
-		System.out.println("18. Tap Notification button");
+		Reporter.log("18. Tap Notification button", true);
 		bottomMenu.clickNotification();
 		// check Notification screen title
-		System.out.println("19. Check that it's Notification screen");
+		Reporter.log("19. Check that it's Notification screen", true);
 		Assert.assertTrue(notification.isNotificationScreen(), "Notification screen is not opened!");
 		// return back to Home screen
-		System.out.println("20. Tap Home button");
+		Reporter.log("20. Tap Home button", true);
 		bottomMenu.clickHome();
 		// click My Profile button
-		System.out.println("21. Tap Profile button");
+		Reporter.log("21. Tap Profile button", true);
 		bottomMenu.clickProfile();
 		// check Profile screen title
-		System.out.println("22.Check title of Profile screen");
+		Reporter.log("22.Check title of Profile screen", true);
 		Assert.assertEquals(profile.getProfileTitle(), username, "Profile screen is not opened or has wrong title!");
 		// return back to Home screen
-		System.out.println("23. Tap Home button");
+		Reporter.log("23. Tap Home button", true);
 		bottomMenu.clickHome();
 		// swipe right
-		System.out.println("24. Swipe right");
+		Reporter.log("24. Swipe right", true);
 		home.goToGoCambassy();
 		// check Go Cambassy screen
-		System.out.println("25. Check that Go Cambassy screen is opened");
+		Reporter.log("25. Check that Go Cambassy screen is opened", true);
 		Assert.assertTrue(goCambassy.isGoCambassyScreen(), "Go Cambassy screen is not opened!");
 		// go back to Home screen
-		System.out.println("26. Swipe left");
+		Reporter.log("26. Swipe left", true);
 		goCambassy.goToHomeScreen();
 		// Go to Profile
-		System.out.println("27. Tap Profile button");
+		Reporter.log("27. Tap Profile button", true);
 		bottomMenu.clickProfile();
 		// Go to Settings
-		System.out.println("28. Tap Settings button");
+		Reporter.log("28. Tap Settings button", true);
 		profile.clickSettingsBtn();
 		// Click log out button
-		System.out.println("29. Tap Log out button");
+		Reporter.log("29. Tap Log out button", true);
 		settings.clickLogout();
 		// confirm log out
-		System.out.println("30. Confirm logout");
+		Reporter.log("30. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as another user
-		System.out.println("31. Login as " + anotheruser);
+		Reporter.log("31. Login as " + anotheruser, true);
 		login.quickLogin(splash, anotheruser, passAnotherUser);
 		// make post
-		System.out.println("32. Tap Camera button");
+		Reporter.log("32. Tap Camera button", true);
 		bottomMenu.clickCamera();
-		System.out.println("33. Tap Capture button");
+		Reporter.log("33. Tap Capture button", true);
 		camera.takePhoto();
-		System.out.println("34. Tap Post button");
+		Reporter.log("34. Tap Post button", true);
 		camera.makePost();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		// Go to Profile
-		System.out.println("35. Tap Settings button");
+		// Go to Settings
+		Reporter.log("35. Tap Settings button", true);
 		profile.clickSettingsBtn();
 		// Click log out button
-		System.out.println("36. Tap Log out button");
+		Reporter.log("36. Tap Log out button", true);
 		settings.clickLogout();
 		// confirm log out
-		System.out.println("37. Confirm logout");
+		Reporter.log("37. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as initial user
-		System.out.println("38. Login as " + username);
+		Reporter.log("38. Login as " + username, true);
 		login.quickLogin(splash, username, password);
 		// follow user which added posts
-		System.out.println("39. Tap Follow People button");
+		Reporter.log("39. Tap Follow People button", true);
 		home.clickFollowPeople();
-		System.out.println("40. Search for " + anotheruser);
+		Reporter.log("40. Search for " + anotheruser, true);
 		followPeople.searchUser(anotheruser);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-		System.out.println("41. Tap Follow  button");
+		Reporter.log("41. Tap Follow  button", true);
 		followPeople.followUser(anotheruser);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check message on the bottom of screeen
-		System.out.println("42. Check message on the bottom of screeen");
+		Reporter.log("42. Check message on the bottom of screeen", true);
 		Assert.assertEquals(followPeople.getfollowMsg(), "You are now following " + anotheruser);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		// return back to Home screen
-		System.out.println("43. Tap Back  button");
-		followPeople.clickBack();
+		Reporter.log("43. Tap Back  button", true);
+		any.clickBack();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check Posts feed
-		System.out.println("44. check Posts feed that there is post from user " + anotheruser);
+		Reporter.log("44. check Posts feed that there is post from user " + anotheruser, true);
 		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
 				"None posts from " + anotheruser + "on home screen!");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Click follow People
-		System.out.println("45. Tap Follow People button");
+		Reporter.log("45. Tap Follow People button", true);
 		home.clickFollowPeople();
 		// find another user
-		System.out.println("46. Search for " + anotheruser);
+		Reporter.log("46. Search for " + anotheruser);
 		followPeople.searchUser(anotheruser);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		// Unfollow another user
-		System.out.println("47. Tap Following button to unfollow user");
+		Reporter.log("47. Tap Following button to unfollow user", true);
 		followPeople.unfollowUser(anotheruser);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check message on the bottom of screeen
-		System.out.println("48. Check message on the bottom of screeen");
+		Reporter.log("48. Check message on the bottom of screeen", true);
 		Assert.assertEquals(followPeople.getfollowMsg(), "You unfollowed " + anotheruser);
 		// go back to Home screen
-		System.out.println("49. Press Back key");
+		Reporter.log("49. Press Back key", true);
 		any.goBack();
 		// check Posts feed
-		System.out.println("50. check Posts feed that there is NOT  post from user " + anotheruser);
+		Reporter.log("50. check Posts feed that there is NOT  post from user " + anotheruser, true);
 		Assert.assertEquals(home.isUserPostHere(anotheruser), false,
 				"Posts from " + anotheruser + "still on home screen!");
 	}

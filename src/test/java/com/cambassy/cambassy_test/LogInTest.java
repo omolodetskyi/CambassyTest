@@ -49,7 +49,7 @@ public class LogInTest extends TestBase {
 		// check if Login screen is opened
 		Assert.assertEquals(login.getTitle(), "Log In");
 		// enter user name
-		login.enterUsername("main_user3");
+		login.enterUsername("test_ms_user2");
 		// enter password
 		login.enterPassword("123456");
 		// hide Keyboard

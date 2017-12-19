@@ -17,6 +17,7 @@ public class HomeScreen {
 	By nextScreenButtons = By.xpath("(//*[@NAF='true'])");
 	By postFeedUserName = By.id("com.cambassy:id/user_name_view");
 	By postImage = By.id("com.cambassy:id/thumb_image");
+	By unreadMsg = By.id("com.cambassy:id/chat_unread_messages_count_view");
 	// constructor
 
 	public HomeScreen(AndroidDriver<AndroidElement> driver) {
@@ -55,10 +56,8 @@ public class HomeScreen {
 
 	public boolean isUserPostHere(String username) {
 		List<AndroidElement> userPosts = driver.findElements(postFeedUserName);
-		System.out.println("Found number of posts " + userPosts.size());
 		boolean isUserPostHere = false;
 		if (!userPosts.isEmpty()) {
-			System.out.println("Number of posts is not empty ");
 			for (AndroidElement userPost : userPosts) {
 				if (userPost.getText().equals(username)) {
 					isUserPostHere = true;
@@ -67,5 +66,12 @@ public class HomeScreen {
 		}
 		return isUserPostHere;
 
+	}
+
+	public String getNumberOfUnreadMsg() {
+		if (!driver.findElements(unreadMsg).isEmpty()) {
+			return driver.findElements(unreadMsg).get(0).getText();
+		}
+		return "0";
 	}
 }

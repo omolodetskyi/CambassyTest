@@ -81,4 +81,20 @@ public class SignUpScreen {
 	public void clickLogIn() {
 		driver.findElement(loginLink).click();
 	}
+
+	public void quickSignUp(SplashScreen splash, String username, String password, String email, String nationality) {
+		splash.clickSignUp();
+		// check if Sign Up screen is opened
+		enterUsername(username);
+		// enter email
+		enterEmail(email);
+		// enter password
+		enterPassword(password);
+		// select Nationality
+		selectNationality(nationality);
+		// agree with Terms of Use
+		checkIagreeTerms();
+		// tap Sign up button
+		clickSignUp();
+	}
 }
