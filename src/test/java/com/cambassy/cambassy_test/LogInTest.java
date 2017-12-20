@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -28,10 +29,14 @@ public class LogInTest extends TestBase {
 	BottomMenu bottomMenu;
 	SettingsScreen settings;
 	ProfileScreen profile;
+	String username = "test_ms_user2";
+	String password = "123456";
 
 	@BeforeTest
 	public void openApp() throws MalformedURLException {
+		Reporter.log("Startig LoginTest", true);
 		driver = capabilities();
+		Reporter.log("1. Open Cambassy", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
 	}
@@ -45,20 +50,27 @@ public class LogInTest extends TestBase {
 		any = new AnyScreen(driver);
 
 		// click on Login link
+		Reporter.log("2. Click on Login link", true);
 		splash.clickLogIn();
 		// check if Login screen is opened
+		Reporter.log("3. Check if Login screen is opened", true);
 		Assert.assertEquals(login.getTitle(), "Log In");
 		// enter user name
-		login.enterUsername("test_ms_user2");
+		Reporter.log("4. Enter username " + username, true);
+		login.enterUsername(username);
 		// enter password
-		login.enterPassword("123456");
+		Reporter.log("5. Enter password " + password, true);
+		login.enterPassword(password);
 		// hide Keyboard
+		Reporter.log("6. Hide Keyboard", true);
 		any.hideKeyboard();
 		// click Login button
+		Reporter.log("7. Click Login button", true);
 		login.clickLogIn();
 		// wait for login completion
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check if user is logged in
+		Reporter.log("8. Check if user is logged in", true);
 		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
 	}
 
@@ -68,11 +80,17 @@ public class LogInTest extends TestBase {
 		settings = new SettingsScreen(driver);
 		profile = new ProfileScreen(driver);
 		// Go to Profile
+		Reporter.log("9. Go to Profile", true);
 		bottomMenu.clickProfile();
 		// Go to Settings
+		Reporter.log("10. Go to Settings", true);
 		profile.clickSettingsBtn();
 		// Click log out button
+		Reporter.log("11. Click log out button", true);
 		settings.clickLogout();
+		// confirm log out
+		Reporter.log("12. Confirm logout", true);
+		settings.ConfirmLogout();
 		driver.quit();
 	}
 }

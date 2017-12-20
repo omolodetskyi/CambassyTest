@@ -53,9 +53,9 @@ public class HomeScreenTest extends TestBase {
 
 	@BeforeTest
 	public void openApp() throws MalformedURLException {
-		Reporter.log("Startig HomeScreenTest /n", true);
+		Reporter.log("Startig HomeScreenTest", true);
 		driver = capabilities();
-		Reporter.log("1. Open Cambassy /n", true);
+		Reporter.log("1. Open Cambassy", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		login = new LoginScreen(driver);
 		splash = new SplashScreen(driver);
