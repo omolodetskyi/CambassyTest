@@ -1,12 +1,12 @@
 package com.cambassy.cambassy_test;
 
-import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -19,6 +19,7 @@ import pageobjects.ProfileScreen;
 import pageobjects.SettingsScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
+import utils.ExcelDataProvider;
 
 public class LogInTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
@@ -32,8 +33,16 @@ public class LogInTest extends TestBase {
 	String username = "test_ms_user2";
 	String password = "123456";
 
+	@DataProvider(name = "LoginTest")
+	public Object[][] dataProvider() {
+		Object[][] testData = ExcelDataProvider.getTestData("LoginTest");
+		return testData;
+
+	}
+
 	@BeforeTest
-	public void openApp() throws MalformedURLException {
+	public void openApp() throws Exception {
+		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData-2.xlsx", "LoginTest");
 		Reporter.log("Startig LoginTest", true);
 		driver = capabilities();
 		Reporter.log("1. Open Cambassy", true);
@@ -41,8 +50,8 @@ public class LogInTest extends TestBase {
 
 	}
 
-	@Test
-	public void LogIn_Test() {
+	@Test(dataProvider = "LoginTest")
+	public void LogIn_Test(String username, String password) {
 
 		splash = new SplashScreen(driver);
 		login = new LoginScreen(driver);
@@ -68,7 +77,7 @@ public class LogInTest extends TestBase {
 		Reporter.log("7. Click Login button", true);
 		login.clickLogIn();
 		// wait for login completion
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// check if user is logged in
 		Reporter.log("8. Check if user is logged in", true);
 		Assert.assertTrue(home.checkTitle(), "Can not find title on home page");
