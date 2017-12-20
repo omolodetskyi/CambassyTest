@@ -1,12 +1,12 @@
 package com.cambassy.cambassy_test;
 
-import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -25,6 +25,7 @@ import pageobjects.ProfileScreen;
 import pageobjects.SettingsScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
+import utils.ExcelDataProvider;
 
 /* ***************************************************************************************************
 HomeScreenTest makes a smoke test for Home screen and Follow People feature
@@ -33,10 +34,7 @@ HomeScreenTest makes a smoke test for Home screen and Follow People feature
 public class HomeScreenTest extends TestBase {
 
 	AndroidDriver<AndroidElement> driver;
-	String username = "test_ms_user1";
-	String password = "123456";
-	String anotheruser = "test_ms_user2";
-	String passAnotherUser = "123456";
+
 	LoginScreen login;
 	SplashScreen splash;
 	MessagesScreen messages;
@@ -51,20 +49,26 @@ public class HomeScreenTest extends TestBase {
 	GoCambassyScreen goCambassy;
 	SettingsScreen settings;
 
+	@DataProvider(name = "HomeScreenTest")
+	public Object[][] dataProvider() {
+		Object[][] testData = ExcelDataProvider.getTestData("HomeScreenTest");
+		return testData;
+
+	}
+
 	@BeforeTest
-	public void openApp() throws MalformedURLException {
+	public void openApp() throws Exception {
+		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData.xlsx", "HomeScreenTest");
 		Reporter.log("Startig HomeScreenTest", true);
 		driver = capabilities();
 		Reporter.log("1. Open Cambassy", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		login = new LoginScreen(driver);
-		splash = new SplashScreen(driver);
-		Reporter.log("2. Login as " + username, true);
-		login.quickLogin(splash, username, password);
+
 	}
 
-	@Test
-	public void HomeScreen_Test() throws InterruptedException {
+	@Test(dataProvider = "HomeScreenTest")
+	public void HomeScreen_Test(String userName, String password, String anotherUserName,
+			String passwordAnotherUserName) throws InterruptedException {
 		home = new HomeScreen(driver);
 		bottomMenu = new BottomMenu(driver);
 		followPeople = new FollowPeople(driver);
@@ -76,7 +80,10 @@ public class HomeScreenTest extends TestBase {
 		profile = new ProfileScreen(driver);
 		goCambassy = new GoCambassyScreen(driver);
 		settings = new SettingsScreen(driver);
-
+		login = new LoginScreen(driver);
+		splash = new SplashScreen(driver);
+		Reporter.log("2. Login as " + userName, true);
+		login.quickLogin(splash, userName, password);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 		// check if home screen has correct title
@@ -140,7 +147,7 @@ public class HomeScreenTest extends TestBase {
 		bottomMenu.clickProfile();
 		// check Profile screen title
 		Reporter.log("22.Check title of Profile screen", true);
-		Assert.assertEquals(profile.getProfileTitle(), username, "Profile screen is not opened or has wrong title!");
+		Assert.assertEquals(profile.getProfileTitle(), userName, "Profile screen is not opened or has wrong title!");
 		// return back to Home screen
 		Reporter.log("23. Tap Home button", true);
 		bottomMenu.clickHome();
@@ -166,8 +173,8 @@ public class HomeScreenTest extends TestBase {
 		Reporter.log("30. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as another user
-		Reporter.log("31. Login as " + anotheruser, true);
-		login.quickLogin(splash, anotheruser, passAnotherUser);
+		Reporter.log("31. Login as " + anotherUserName, true);
+		login.quickLogin(splash, anotherUserName, passwordAnotherUserName);
 		// make post
 		Reporter.log("32. Tap Camera button", true);
 		bottomMenu.clickCamera();
@@ -186,51 +193,63 @@ public class HomeScreenTest extends TestBase {
 		Reporter.log("37. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as initial user
-		Reporter.log("38. Login as " + username, true);
-		login.quickLogin(splash, username, password);
+		Reporter.log("38. Login as " + userName, true);
+		login.quickLogin(splash, userName, password);
 		// follow user which added posts
 		Reporter.log("39. Tap Follow People button", true);
 		home.clickFollowPeople();
-		Reporter.log("40. Search for " + anotheruser, true);
-		followPeople.searchUser(anotheruser);
+		Reporter.log("40. Search for " + anotherUserName, true);
+		followPeople.searchUser(anotherUserName);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		Reporter.log("41. Tap Follow  button", true);
-		followPeople.followUser(anotheruser);
+		followPeople.followUser(anotherUserName);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check message on the bottom of screeen
 		Reporter.log("42. Check message on the bottom of screeen", true);
-		Assert.assertEquals(followPeople.getfollowMsg(), "You are now following " + anotheruser);
+		Assert.assertEquals(followPeople.getfollowMsg(), "You are now following " + anotherUserName);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		// return back to Home screen
 		Reporter.log("43. Tap Back  button", true);
 		any.clickBack();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check Posts feed
-		Reporter.log("44. check Posts feed that there is post from user " + anotheruser, true);
-		Assert.assertEquals(home.isUserPostHere(anotheruser), true,
-				"None posts from " + anotheruser + "on home screen!");
+		Reporter.log("44. check Posts feed that there is post from user " + anotherUserName, true);
+		Assert.assertEquals(home.isUserPostHere(anotherUserName), true,
+				"None posts from " + anotherUserName + "on home screen!");
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// Click follow People
 		Reporter.log("45. Tap Follow People button", true);
 		home.clickFollowPeople();
 		// find another user
-		Reporter.log("46. Search for " + anotheruser);
-		followPeople.searchUser(anotheruser);
+		Reporter.log("46. Search for " + anotherUserName);
+		followPeople.searchUser(anotherUserName);
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		// Unfollow another user
 		Reporter.log("47. Tap Following button to unfollow user", true);
-		followPeople.unfollowUser(anotheruser);
+		followPeople.unfollowUser(anotherUserName);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 		// check message on the bottom of screeen
 		Reporter.log("48. Check message on the bottom of screeen", true);
-		Assert.assertEquals(followPeople.getfollowMsg(), "You unfollowed " + anotheruser);
+		Assert.assertEquals(followPeople.getfollowMsg(), "You unfollowed " + anotherUserName);
 		// go back to Home screen
 		Reporter.log("49. Press Back key", true);
 		any.goBack();
 		// check Posts feed
-		Reporter.log("50. check Posts feed that there is NOT  post from user " + anotheruser, true);
-		Assert.assertEquals(home.isUserPostHere(anotheruser), false,
-				"Posts from " + anotheruser + "still on home screen!");
+		Reporter.log("50. check Posts feed that there is NOT  post from user " + anotherUserName, true);
+		Assert.assertEquals(home.isUserPostHere(anotherUserName), false,
+				"Posts from " + anotherUserName + "still on home screen!");
+		// Go to Profile
+		Reporter.log("51. Tap Profile button", true);
+		bottomMenu.clickProfile();
+		// Go to Settings
+		Reporter.log("52. Tap Settings button", true);
+		profile.clickSettingsBtn();
+		// Click log out button
+		Reporter.log("53. Tap Log out button", true);
+		settings.clickLogout();
+		// confirm log out
+		Reporter.log("54. Confirm logout", true);
+		settings.ConfirmLogout();
 	}
 
 	@AfterTest

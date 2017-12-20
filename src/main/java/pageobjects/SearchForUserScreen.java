@@ -25,8 +25,8 @@ public class SearchForUserScreen {
 	}
 
 	public void searchUser(String username) {
-		// String firstPart = username.substring(0, username.length() - 1);
-		// String lastPart = username.substring(username.length());
+		// String firstPart = userName.substring(0, userName.length() - 1);
+		// String lastPart = userName.substring(userName.length());
 		driver.findElement(searchUser).sendKeys(username + " ");
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		driver.pressKeyCode(AndroidKeyCode.BACK);

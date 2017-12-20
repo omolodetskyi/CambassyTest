@@ -1,6 +1,5 @@
 package com.cambassy.cambassy_test;
 
-import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +10,7 @@ import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -27,6 +27,7 @@ import pageobjects.SettingsScreen;
 import pageobjects.SignUpScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
+import utils.ExcelDataProvider;
 
 public class MessagesTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
@@ -42,31 +43,27 @@ public class MessagesTest extends TestBase {
 	SearchForUserScreen searchUser;
 	ChatScreen chat;
 
-	String username = "test_ms_user2";
-	String password = "123456";
-	String email = username + "@test.ua";
-	String nationality = "Ukraine";
-	String anotheruser = "veraivanovna";
-	String emailAnotherUser = anotheruser + "@test.ua";
-	String passAnotherUser = "123456";
-	String enteredMessage = "Hello!";
-	String answerMsg = "Hey, how are you?";
+	@DataProvider(name = "MessagesTest")
+	public Object[][] dataProvider() {
+		Object[][] testData = ExcelDataProvider.getTestData("MessagesTest");
+		return testData;
+
+	}
 
 	@BeforeTest
-	public void beforeTest() throws MalformedURLException {
+	public void beforeTest() throws Exception {
 
 		Reporter.log("Startig MessagesScreenTest", true);
+		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData.xlsx", "MessagesTest");
 		Reporter.log("1. Open Cambassy", true);
 		driver = capabilities();
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		login = new LoginScreen(driver);
-		splash = new SplashScreen(driver);
-		Reporter.log("2. Login as " + username, true);
-		login.quickLogin(splash, username, password);
+
 	}
 
-	@Test
-	public void Messages_Test() {
+	@Test(dataProvider = "MessagesTest")
+	public void Messages_Test(String userName, String password, String anotherUserName, String passwordAnotherUser,
+			String enteredMessage, String answerMessage) {
 
 		home = new HomeScreen(driver);
 		messages = new MessagesScreen(driver);
@@ -76,6 +73,11 @@ public class MessagesTest extends TestBase {
 		settings = new SettingsScreen(driver);
 		chat = new ChatScreen(driver);
 		any = new AnyScreen(driver);
+		login = new LoginScreen(driver);
+		splash = new SplashScreen(driver);
+
+		Reporter.log("2. Login as " + userName, true);
+		login.quickLogin(splash, userName, password);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// Tap Messages button
 		Reporter.log("3. Tap Messages button", true);
@@ -90,11 +92,11 @@ public class MessagesTest extends TestBase {
 		Reporter.log("6. Check Search for User title", true);
 		Assert.assertEquals(searchUser.getSearchForUserTitle(), "Search for User");
 		// Search for another user
-		Reporter.log("7. Search for user " + anotheruser, true);
-		searchUser.searchUser(anotheruser);
+		Reporter.log("7. Search for user " + anotherUserName, true);
+		searchUser.searchUser(anotherUserName);
 		// Tap on user avatar
-		Reporter.log("8. Tap on " + anotheruser + " avatar", true);
-		searchUser.selectUser(anotheruser);
+		Reporter.log("8. Tap on " + anotherUserName + " avatar", true);
+		searchUser.selectUser(anotherUserName);
 		driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 		// enter message
 		Reporter.log("9. Enter message " + enteredMessage, true);
@@ -134,8 +136,8 @@ public class MessagesTest extends TestBase {
 		Reporter.log("21. Confirm logout", true);
 		settings.ConfirmLogout();
 		// Login as another user
-		Reporter.log("22. Login as " + anotheruser, true);
-		login.quickLogin(splash, anotheruser, passAnotherUser);
+		Reporter.log("22. Login as " + anotherUserName, true);
+		login.quickLogin(splash, anotherUserName, passwordAnotherUser);
 		// Check number of unread messages on Home screen
 		Reporter.log("23. Check number of unread messages on Home screen", true);
 		Assert.assertEquals(home.getNumberOfUnreadMsg(), "1");
@@ -146,7 +148,7 @@ public class MessagesTest extends TestBase {
 		Reporter.log("25. Check number of unread messages on Messages screen", true);
 		Assert.assertEquals(messages.getNumberOfUnreadMsg(), "1");
 		// tap on number unread messages to see message from test user
-		Reporter.log("26. Tap on number unread messages to see message from " + username, true);
+		Reporter.log("26. Tap on number unread messages to see message from " + userName, true);
 		messages.clickNumberOfUnreadMsg();
 		// check message from test user in Chat screen
 		Reporter.log("27. Check message from test user in Chat screen", true);
@@ -155,15 +157,15 @@ public class MessagesTest extends TestBase {
 		Reporter.log("28. Check time of the message in chat screen", true);
 		Assert.assertEquals(chat.getChatTime(0), messageTime);
 		// write answer to test user
-		Reporter.log("29. Enter answer to " + username);
-		chat.enterMessage(answerMsg);
+		Reporter.log("29. Enter answer to " + userName);
+		chat.enterMessage(answerMessage);
 		// send message
 		Reporter.log("30. Click Send button", true);
 		chat.clickSend();
 		// check message to test user in Chat screen
 		String answerMessageTime = getCurrentTime();
 		Reporter.log("31. Check message to test user in Chat screen", true);
-		Assert.assertEquals(chat.getChatMsg(1), answerMsg, "Message is not found!");
+		Assert.assertEquals(chat.getChatMsg(1), answerMessage, "Message is not found!");
 		// check time of message to test user in Chat screen
 		Assert.assertEquals(chat.getChatTime(1), answerMessageTime);
 		// go back to Messages screen
@@ -187,7 +189,18 @@ public class MessagesTest extends TestBase {
 		// Check that chat was deleted
 		Reporter.log("37. Check that chat was deleted", true);
 		Assert.assertEquals(messages.getLastMessage(0), "None message found", "Message is not deleted!");
-
+		// Go to Profile
+		Reporter.log("38. Tap Profile button", true);
+		bottomMenu.clickProfile();
+		// Go to Settings
+		Reporter.log("39. Tap Settings button", true);
+		profile.clickSettingsBtn();
+		// Click log out button
+		Reporter.log("40. Tap Log out button", true);
+		settings.clickLogout();
+		// confirm log out
+		Reporter.log("41. Confirm logout", true);
+		settings.ConfirmLogout();
 	}
 
 	private String getCurrentTime() {

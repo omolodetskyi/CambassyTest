@@ -6,6 +6,7 @@
 			<class name="com.cambassy.cambassy_test.SignUpTest" />
 			<class name="com.cambassy.cambassy_test.LogInTest" />
 			<class name="com.cambassy.cambassy_test.HomeScreenTest" />
+			<class name="com.cambassy.cambassy_test.MessagesTest" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

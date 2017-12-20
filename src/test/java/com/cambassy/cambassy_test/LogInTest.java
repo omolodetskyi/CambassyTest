@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -40,12 +41,31 @@ public class LogInTest extends TestBase {
 
 	@BeforeTest
 	public void openApp() throws Exception {
-		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData-2.xlsx", "LoginTest");
+		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData.xlsx", "LoginTest");
 		Reporter.log("Startig LoginTest", true);
 		driver = capabilities();
 		Reporter.log("1. Open Cambassy", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
+	}
+
+	@AfterMethod
+	public void Logout() {
+		bottomMenu = new BottomMenu(driver);
+		settings = new SettingsScreen(driver);
+		profile = new ProfileScreen(driver);
+		// Go to Profile
+		Reporter.log("9. Go to Profile", true);
+		bottomMenu.clickProfile();
+		// Go to Settings
+		Reporter.log("10. Go to Settings", true);
+		profile.clickSettingsBtn();
+		// Click log out button
+		Reporter.log("11. Click log out button", true);
+		settings.clickLogout();
+		// confirm log out
+		Reporter.log("12. Confirm logout", true);
+		settings.ConfirmLogout();
 	}
 
 	@Test(dataProvider = "LoginTest")
@@ -63,7 +83,7 @@ public class LogInTest extends TestBase {
 		Reporter.log("3. Check if Login screen is opened", true);
 		Assert.assertEquals(login.getTitle(), "Log In");
 		// enter user name
-		Reporter.log("4. Enter username " + username, true);
+		Reporter.log("4. Enter userName " + username, true);
 		login.enterUsername(username);
 		// enter password
 		Reporter.log("5. Enter password " + password, true);
@@ -83,21 +103,7 @@ public class LogInTest extends TestBase {
 
 	@AfterTest
 	public void cleanUp() {
-		bottomMenu = new BottomMenu(driver);
-		settings = new SettingsScreen(driver);
-		profile = new ProfileScreen(driver);
-		// Go to Profile
-		Reporter.log("9. Go to Profile", true);
-		bottomMenu.clickProfile();
-		// Go to Settings
-		Reporter.log("10. Go to Settings", true);
-		profile.clickSettingsBtn();
-		// Click log out button
-		Reporter.log("11. Click log out button", true);
-		settings.clickLogout();
-		// confirm log out
-		Reporter.log("12. Confirm logout", true);
-		settings.ConfirmLogout();
+		// exit from driver
 		driver.quit();
 	}
 }

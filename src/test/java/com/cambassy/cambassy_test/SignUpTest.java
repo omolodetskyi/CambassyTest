@@ -1,12 +1,12 @@
 package com.cambassy.cambassy_test;
 
-import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -14,24 +14,29 @@ import io.appium.java_client.android.AndroidElement;
 import pageobjects.SignUpScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
+import utils.ExcelDataProvider;
 
 public class SignUpTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
-	String username = "test_ms_user2";
-	String email = "test_ms_user2@test.com";
-	String password = "123456";
-	String nationality = "Ukraine";
 
 	@BeforeTest
-	public void openApp() throws MalformedURLException {
+	public void openApp() throws Exception {
+		ExcelDataProvider.setExcelFile("/Users/alexander/Downloads/cambassyTestData.xlsx", "SignUpTest");
 		Reporter.log("Startig SignUpTest", true);
 		driver = capabilities();
 		Reporter.log("1. Open Cambassy", true);
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
-	@Test
-	public void SingUp_Test() {
+	@DataProvider(name = "SignUpTest")
+	public Object[][] dataProvider() {
+		Object[][] testData = ExcelDataProvider.getTestData("SignUpTest");
+		return testData;
+
+	}
+
+	@Test(dataProvider = "SignUpTest")
+	public void SingUp_Test(String username, String email, String password, String nationality) {
 		SplashScreen splash = new SplashScreen(driver);
 		SignUpScreen signUp = new SignUpScreen(driver);
 		// click on Sing Up link
@@ -65,6 +70,6 @@ public class SignUpTest extends TestBase {
 
 	@AfterTest
 	public void cleanUp() {
-		driver.quit();
+		// driver.quit();
 	}
 }
