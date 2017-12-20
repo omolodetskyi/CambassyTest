@@ -30,8 +30,6 @@ public class LogInTest extends TestBase {
 	BottomMenu bottomMenu;
 	SettingsScreen settings;
 	ProfileScreen profile;
-	String username = "test_ms_user2";
-	String password = "123456";
 
 	@DataProvider(name = "LoginTest")
 	public Object[][] dataProvider() {
