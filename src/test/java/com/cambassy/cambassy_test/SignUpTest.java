@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -11,6 +12,9 @@ import org.testng.annotations.Test;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import pageobjects.BottomMenu;
+import pageobjects.ProfileScreen;
+import pageobjects.SettingsScreen;
 import pageobjects.SignUpScreen;
 import pageobjects.SplashScreen;
 import pageobjects.TestBase;
@@ -18,6 +22,9 @@ import utils.ExcelDataProvider;
 
 public class SignUpTest extends TestBase {
 	AndroidDriver<AndroidElement> driver;
+	BottomMenu bottomMenu;
+	SettingsScreen settings;
+	ProfileScreen profile;
 
 	@BeforeTest
 	public void openApp() throws Exception {
@@ -33,6 +40,25 @@ public class SignUpTest extends TestBase {
 		Object[][] testData = ExcelDataProvider.getTestData("SignUpTest");
 		return testData;
 
+	}
+
+	@AfterMethod
+	public void Logout() {
+		bottomMenu = new BottomMenu(driver);
+		settings = new SettingsScreen(driver);
+		profile = new ProfileScreen(driver);
+		// Go to Profile
+		Reporter.log("9. Go to Profile", true);
+		bottomMenu.clickProfile();
+		// Go to Settings
+		Reporter.log("10. Go to Settings", true);
+		profile.clickSettingsBtn();
+		// Click log out button
+		Reporter.log("11. Click log out button", true);
+		settings.clickLogout();
+		// confirm log out
+		Reporter.log("12. Confirm logout", true);
+		settings.ConfirmLogout();
 	}
 
 	@Test(dataProvider = "SignUpTest")
@@ -65,6 +91,10 @@ public class SignUpTest extends TestBase {
 		signUp.clickSignUp();
 		// Check the message that email is sent to user
 		Reporter.log("8. Check the message that email is sent to  user", true);
+		// TODO there is a defect that user is automatically logged, as soon as
+		// it is fixed there should be added step to check the message and
+		// logout steps can be deleted, now they are added to @AfterMethod to
+		// make the whole suite working
 
 	}
 
